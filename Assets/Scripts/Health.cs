@@ -8,6 +8,8 @@ public class Health : MonoBehaviour
     private Enemy enemy; // Reference to the Enemy script to call EnemyKilled() when this entity dies
     private PlayerMovement player; // Reference to the PlayerMovement script to call GameOver() when the player dies
     [SerializeField] private float currentHealth;
+    public float invulnerabilityTime = 0.5f;
+    private float invulTimer;
 
     // Reference to the UI element (e.g., a Slider or Image) to visually represent health
     // Make sure to add 'using UnityEngine.UI;' at the top of your script for this.
@@ -23,12 +25,23 @@ public class Health : MonoBehaviour
         player = GetComponent<PlayerMovement>();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (invulTimer > 0)
+            invulTimer -= Time.deltaTime;
+    }
+
     // Public function to allow other scripts to deal damage
     public void TakeDamage(float amount)
     {
+        if (invulTimer > 0) return;
+
         currentHealth -= amount;
         // Use Mathf.Clamp to ensure health stays between 0 and maxHealth
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        invulTimer = invulnerabilityTime;
 
         // UpdateHealthUI(); // Update the UI when health changes
 
@@ -69,6 +82,9 @@ public class Health : MonoBehaviour
         // For example, disable the game object:
         // gameObject.SetActive(false);
 
+        Enemy enemy = GetComponent<Enemy>();
+        PlayerMovement player = GetComponent<PlayerMovement>();
+
         if (enemy != null)
         {
             enemy.Die();
@@ -77,6 +93,7 @@ public class Health : MonoBehaviour
         if (player != null)
         {
             GameManagerScript gm = FindFirstObjectByType<GameManagerScript>();
+
             if (gm != null)
                 gm.GameOver();
         }

@@ -125,12 +125,15 @@ public class Enemy : MonoBehaviour
         if (animator != null)
             animator.SetTrigger("Attack");
 
+        if (player == null) return;
+
         Health playerHealth = player.GetComponent<Health>();
 
         if (playerHealth != null)
+        {
             playerHealth.TakeDamage(damage);
-
-        Debug.Log("Enemy attacked player");
+            Debug.Log("Enemy attacked player for " + damage + " damage");
+        }
     }
 
     public void Die()
