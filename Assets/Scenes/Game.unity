@@ -1099,6 +1099,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1558186720}
   gameOverUI: {fileID: 1293231702}
   gameWinUI: {fileID: 1879952071}
+  hpBarUI: {fileID: 0}
   enemiesRemaining: 0
 --- !u!4 &514657946
 Transform:
@@ -3164,10 +3165,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1297018312}
   - {fileID: 1558186721}
   - {fileID: 1293231703}
   - {fileID: 1879952075}
-  - {fileID: 1297018312}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -11868,6 +11869,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1558186720}
   gameOverUI: {fileID: 1293231702}
   gameWinUI: {fileID: 1748515802}
+  hpBarUI: {fileID: 1297018311}
   enemiesRemaining: 0
 --- !u!95 &1558186726
 Animator:

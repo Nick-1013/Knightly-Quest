@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
         if (isDead || player == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
-        Debug.Log("Distance to player: " + distance + " | State: " + currentState);
+        // Debug.Log("Distance to player: " + distance + " | State: " + currentState);
 
         // Determine AI state
         if (distance <= attackRange)

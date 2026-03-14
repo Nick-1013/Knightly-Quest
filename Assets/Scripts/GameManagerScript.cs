@@ -10,6 +10,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject gameOverUI;
     public GameObject gameWinUI;
+    public GameObject hpBarUI;
 
     [Header("Level Progress")]
     public int enemiesRemaining;
@@ -24,6 +25,9 @@ public class GameManagerScript : MonoBehaviour
         pauseMenuUI.SetActive(false);
         gameOverUI.SetActive(false);
         gameWinUI.SetActive(false);
+
+        if (hpBarUI != null)
+            hpBarUI.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -70,6 +74,10 @@ public class GameManagerScript : MonoBehaviour
         if (gameOverUI.activeSelf || gameWinUI.activeSelf) return;
 
         pauseMenuUI.SetActive(true);
+
+        if (hpBarUI != null)
+            hpBarUI.SetActive(false);
+
         Time.timeScale = 0f;
         isPaused = true;
     }
@@ -77,19 +85,41 @@ public class GameManagerScript : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
+
+        // Only show HP bar if NOT in game over or win state
+        if (!gameOverUI.activeSelf && !gameWinUI.activeSelf)
+        {
+            if (hpBarUI != null)
+                hpBarUI.SetActive(true);
+        }
+
         Time.timeScale = 1f;
         isPaused = false;
     }
 
     public void GameOver()
     {
-        ResumeGame();
-        gameOverUI.SetActive(true);
+        StartCoroutine(GameOverDelay());
+        IEnumerator GameOverDelay()
+        {
+            // Wait a few seconds (adjust if needed)
+            yield return new WaitForSeconds(1f);
+
+            // Show Game Over screen
+            gameOverUI.SetActive(true);
+
+            // Pause the game
+            Time.timeScale = 0f;
+        }
     }
 
     public void GameWin()
     {
+        if (hpBarUI != null)
+            hpBarUI.SetActive(false);
+
         ResumeGame();
+
         gameWinUI.SetActive(true);
     }
 

@@ -40,6 +40,10 @@ public class ImageController : MonoBehaviour
 
     void UpdateImages()
     {
+        // If the HP bar itself is disabled, do nothing
+        if (!gameObject.activeInHierarchy)
+            return;
+
         // Disable all images first
         for (int i = 0; i < imageObjects.Length; i++)
         {
@@ -49,7 +53,7 @@ public class ImageController : MonoBehaviour
         // Enable only the image matching the current health
         if (currentHealth >= 0 && currentHealth < imageObjects.Length)
         {
-            imageObjects[currentHealth].SetActive(true);
+            imageObjects[Mathf.Clamp(currentHealth, 0, imageObjects.Length - 1)].SetActive(true);
         }
     }
 }
