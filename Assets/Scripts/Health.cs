@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     private Enemy enemy; // Reference to the Enemy script to call EnemyKilled() when this entity dies
     private PlayerMovement player; // Reference to the PlayerMovement script to call GameOver() when the player dies
     [SerializeField] private float currentHealth;
+    [SerializeField] private ImageController healthUI;
     public float invulnerabilityTime = 0.5f;
     private float invulTimer;
 
@@ -43,6 +44,9 @@ public class Health : MonoBehaviour
 
         invulTimer = invulnerabilityTime;
 
+        if (healthUI != null)
+            healthUI.TakeDamage((int)amount);
+
         // UpdateHealthUI(); // Update the UI when health changes
 
         if (currentHealth <= 0)
@@ -58,6 +62,9 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         // UpdateHealthUI(); // Update the UI when health changes
+
+        if (healthUI != null)
+            healthUI.Heal((int)amount);
     }
 
     // Optional: Function to update the health bar UI
