@@ -109,7 +109,7 @@ public class GameManagerScript : MonoBehaviour
             gameOverUI.SetActive(true);
 
             // Pause the game
-            Time.timeScale = 0f;
+            Time.timeScale = 1.0f;
         }
     }
 
