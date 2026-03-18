@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
     private PlayerMovement player; // Reference to the PlayerMovement script to call GameOver() when the player dies
     [SerializeField] private float currentHealth;
     [SerializeField] private ImageController healthUI;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     public float invulnerabilityTime = 0.5f;
     private float invulTimer;
 
@@ -24,13 +25,46 @@ public class Health : MonoBehaviour
         // UpdateHealthUI(); // Call this to set the initial state of the UI
         enemy = GetComponent<Enemy>();
         player = GetComponent<PlayerMovement>();
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (invulTimer > 0)
+        {
             invulTimer -= Time.deltaTime;
+
+            FlashEffect();
+        }
+        else
+        {
+            ResetVisual();
+        }
+    }
+
+    void FlashEffect()
+    {
+        if (spriteRenderer == null) return;
+
+        Color color = spriteRenderer.color;
+
+        // PingPong creates a smooth fade in/out
+        float alpha = Mathf.PingPong(Time.time * 5f, 1f);
+
+        color.a = alpha;
+        spriteRenderer.color = color;
+    }
+
+    void ResetVisual()
+    {
+        if (spriteRenderer == null) return;
+
+        Color color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
     }
 
     // Public function to allow other scripts to deal damage
