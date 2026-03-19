@@ -32,11 +32,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Time.timeScale == 0f) return;
 
-        if (transform.position.y < -10f)
-        {
-            gameManager.GameOver();
-            enabled = false; // disable player movement
-        }
+        //if (transform.position.y < -10f)
+        //{
+        //    gameManager.GameOver();
+        //    enabled = false; // disable player movement
+        //}
         Gamepad currentGamepad = InputSystem.devices.OfType<Gamepad>().FirstOrDefault();
 
         moveDirection = GetHorizontalInput(currentGamepad);

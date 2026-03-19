@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private GameManagerScript gameManager;
+    private Health playerHealth;
 
     private EnemyState currentState;
 
@@ -44,6 +45,12 @@ public class Enemy : MonoBehaviour
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null)
                 player = playerObj.transform;
+        }
+
+        // Cache Health once
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<Health>();
         }
 
         currentState = EnemyState.Idle;
@@ -102,11 +109,24 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
-        float direction = Mathf.Sign(player.position.x - transform.position.x);
+        //float direction = Mathf.Sign(player.position.x - transform.position.x);
+        float deltaX = player.position.x - transform.position.x;
+        float direction = 0f;
 
-        rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocity.y);
+        float flipThreshold = 0.2f; // tweak this value
 
-        transform.localScale = new Vector3(direction, 1, 1);
+        if (Mathf.Abs(deltaX) > flipThreshold)
+        {
+            direction = Mathf.Sign(deltaX);
+        }
+
+        //rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocity.y);
+        transform.position += new Vector3(direction * moveSpeed * Time.fixedDeltaTime, 0, 0);
+
+        if (direction != 0)
+        {
+            transform.localScale = new Vector3(direction, 1, 1);
+        }
 
         if (animator != null)
             animator.SetBool("IsMoving", true);
@@ -124,10 +144,6 @@ public class Enemy : MonoBehaviour
     {
         if (animator != null)
             animator.SetTrigger("Attack");
-
-        if (player == null) return;
-
-        Health playerHealth = player.GetComponent<Health>();
 
         if (playerHealth != null)
         {
