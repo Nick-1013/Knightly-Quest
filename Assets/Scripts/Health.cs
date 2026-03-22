@@ -12,6 +12,8 @@ public class Health : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     public float invulnerabilityTime = 0.5f;
     private float invulTimer;
+    private Animator animator;
+    private bool isDead = false;
 
     // Reference to the UI element (e.g., a Slider or Image) to visually represent health
     // Make sure to add 'using UnityEngine.UI;' at the top of your script for this.
@@ -25,6 +27,7 @@ public class Health : MonoBehaviour
         // UpdateHealthUI(); // Call this to set the initial state of the UI
         enemy = GetComponent<Enemy>();
         player = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
 
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,6 +36,12 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            ResetVisual();
+            return;
+        }
+
         if (invulTimer > 0)
         {
             invulTimer -= Time.deltaTime;
@@ -70,7 +79,7 @@ public class Health : MonoBehaviour
     // Public function to allow other scripts to deal damage
     public void TakeDamage(float amount)
     {
-        if (invulTimer > 0) return;
+        if (invulTimer > 0 || isDead) return;
 
         currentHealth -= amount;
         // Use Mathf.Clamp to ensure health stays between 0 and maxHealth
@@ -118,14 +127,28 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         // Handle death logic here (e.g., play death animation, respawn, destroy object, reload scene)
         Debug.Log(gameObject.name + " has died!");
         // For example, disable the game object:
         // gameObject.SetActive(false);
 
-        Enemy enemy = GetComponent<Enemy>();
-        PlayerMovement player = GetComponent<PlayerMovement>();
+        // Fire "Death" Trigger for the Animator (ONE TIME)
+        if (animator != null)
+        {
+            animator.SetTrigger("IsDead");
+        }
 
+        // Disable movement scripts
+        if (player != null)
+            player.enabled = false;
+
+        if (enemy != null)
+            enemy.enabled = false;
+
+        // Notify the GameManager that an enemy has been killed or the player has died
         if (enemy != null)
         {
             enemy.Die();
