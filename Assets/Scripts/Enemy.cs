@@ -12,7 +12,6 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
 
     // ---------------- STATS ----------------
     [Header("Stats")] // Inspector header for stats
-    public int maxHealth = 3; // Maximum health of enemy
     public int damage = 1; // Damage dealt to player per attack
     public float attackCooldown = 2f; // Time between attacks
 
@@ -34,7 +33,6 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
     // ---------------- INTERNAL STATE ----------------
     private EnemyState currentState; // Current AI state
     private float attackTimer; // Timer controlling attack cooldown
-    private int currentHealth; // Current health value
     private bool isDead; // Tracks whether enemy is dead
 
     // ---------------- UNITY START ----------------
@@ -44,7 +42,6 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
         animator = GetComponent<Animator>(); // Get Animator component
         gameManager = FindFirstObjectByType<GameManagerScript>(); // Find GameManager in scene
 
-        currentHealth = maxHealth; // Initialize health
         attackTimer = attackCooldown; // Initialize attack timer
 
         // -------- FIND PLAYER AUTOMATICALLY --------
@@ -59,6 +56,11 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
         if (player != null)
         {
             playerHealth = player.GetComponent<Health>(); // Get player's Health script
+
+            if (playerHealth == GetComponent<Health>())
+            {
+                Debug.LogError("Enemy is targeting itself as player!");
+            }
         }
 
         currentState = EnemyState.Idle; // Start in Idle state
@@ -79,7 +81,7 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
             {
                 currentState = EnemyState.Attack; // Switch to Attack state
                 attackTimer = attackCooldown; // Reset attack timer
-                Debug.Log("[Enemy] Entering ATTACK state."); // Debug log
+                //Debug.Log("[Enemy] Entering ATTACK state."); // Debug log
             }
         }
         else if (distance <= detectionRange) // If player is within detection range
@@ -87,7 +89,7 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
             if (currentState != EnemyState.Chase) // Only switch if not already chasing
             {
                 currentState = EnemyState.Chase; // Switch to Chase state
-                Debug.Log("[Enemy] Entering CHASE state."); // Debug log
+                //Debug.Log("[Enemy] Entering CHASE state."); // Debug log
             }
         }
         else // If player is out of range
@@ -95,7 +97,7 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
             if (currentState != EnemyState.Idle) // Only switch if not already idle
             {
                 currentState = EnemyState.Idle; // Switch to Idle state
-                Debug.Log("[Enemy] Entering IDLE state."); // Debug log
+                //Debug.Log("[Enemy] Entering IDLE state."); // Debug log
             }
         }
 
@@ -185,17 +187,18 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
     // ---------------- ATTACK ----------------
     void Attack()
     {
-        float distance = Vector2.Distance(transform.position, player.position); // Recalculate distance
+        if (player == null) return;
 
-        if (distance > attackRange) return; // Prevent attacking if out of range
+        float distance = Vector2.Distance(transform.position, player.position);
+        if (distance > attackRange) return;
 
         if (animator != null)
-            animator.SetTrigger("Attack"); // Trigger attack animation
+            animator.SetTrigger("Attack");
 
-        if (playerHealth != null)
+        if (playerHealth != null && playerHealth.gameObject != gameObject) // Prevent self-damage
         {
-            playerHealth.TakeDamage(damage); // Apply damage to player
-            Debug.Log("Enemy attacked player for " + damage + " damage"); // Debug log
+            Debug.Log("Enemy hitting: " + playerHealth.gameObject.name);
+            playerHealth.TakeDamage(damage);
         }
     }
 
@@ -214,24 +217,6 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
         if (animator != null)
         {
             animator.SetBool("Attack", value); // Sets attack animation bool
-        }
-    }
-
-    // ---------------- TAKE DAMAGE ----------------
-    public void TakeDamage(int amount)
-    {
-        if (isDead) return; // Ignore if already dead
-
-        currentHealth -= amount; // Reduce health
-
-        if (animator != null)
-            animator.SetTrigger("IsHurt");
-
-        Debug.Log("[Enemy] Took damage: " + amount + " | HP: " + currentHealth); // Debug log
-
-        if (currentHealth <= 0)
-        {
-            Die(); // Kill enemy if health is 0
         }
     }
 

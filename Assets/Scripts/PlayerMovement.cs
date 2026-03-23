@@ -24,8 +24,11 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
 
     // ---------------- ATTACK SETTINGS ----------------
     [Header("Attack")] // Creates a header in the Unity Inspector
-    public float attackRange = 1.5f; // Radius of attack hit detection
+    public float attackRange = 2.5f; // Radius of attack hit detection
     public int attackDamage = 1; // Damage dealt per attack
+    public Transform attackPoint;
+
+    public LayerMask enemyLayer; // Layer mask to specify which layers are considered enemies for attack detection
 
     // ---------------- UNITY START ----------------
     void Start()
@@ -234,29 +237,28 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
             animator.SetTrigger("IsAttacking"); // Trigger attack animation
 
         // Detect all colliders within attack range
-        Vector2 attackCenter = (Vector2)transform.position + Vector2.right * transform.localScale.x * 1f;
+        Vector2 attackCenter = attackPoint.position;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, attackRange);
+        // Draw this always
+        Debug.DrawLine(transform.position, attackCenter, Color.red, 1f);
+        Debug.DrawRay(attackCenter, Vector2.up * attackRange, Color.green, 1f);
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, attackRange, enemyLayer);
         Debug.Log("Hits found: " + hits.Length);
+        Debug.Log("Enemy LayerMask value: " + enemyLayer.value);
 
         // Loop through all detected colliders
         foreach (Collider2D col in hits)
         {
-            Enemy enemy = null;
+            Debug.Log("Hit object: " + col.name);
 
-            // First try direct hit
-            if (!col.TryGetComponent(out enemy))
-            {
-                // If not found, try parent
-                enemy = col.GetComponentInParent<Enemy>();
-            }
+            Health health = col.GetComponent<Health>();
 
             // Only apply damage if enemy was found
-            if (enemy != null)
+            if (health != null && !health.isPlayer)
             {
-                enemy.TakeDamage(attackDamage);
-                Debug.Log($"[Player] Damaged enemy for {attackDamage} HP");
-                Debug.Log("Hit object: " + col.name);
+                Debug.Log("Applying damage to: " + health.gameObject.name);
+                health.TakeDamage(attackDamage);
             }
         }
     }

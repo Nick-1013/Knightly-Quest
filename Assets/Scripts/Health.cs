@@ -14,6 +14,7 @@ public class Health : MonoBehaviour
     private float invulTimer;
     private Animator animator;
     private bool isDead = false;
+    public bool isPlayer = false;
 
     // Reference to the UI element (e.g., a Slider or Image) to visually represent health
     // Make sure to add 'using UnityEngine.UI;' at the top of your script for this.
@@ -25,12 +26,19 @@ public class Health : MonoBehaviour
         // When the game starts, set the current health to the maximum health
         currentHealth = maxHealth;
         // UpdateHealthUI(); // Call this to set the initial state of the UI
-        enemy = GetComponent<Enemy>();
-        player = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
 
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (!isPlayer)
+        {
+            enemy = GetComponent<Enemy>();
+        }
+        else
+        {
+            player = GetComponent<PlayerMovement>();
+        }
     }
 
     // Update is called once per frame
@@ -79,17 +87,35 @@ public class Health : MonoBehaviour
     // Public function to allow other scripts to deal damage
     public void TakeDamage(float amount)
     {
+        Debug.Log("Health script hit on: " + gameObject.name);
         if (invulTimer > 0 || isDead) return;
 
         currentHealth -= amount;
+
+        Debug.Log("Health script hit on: " + gameObject.name);
         // Use Mathf.Clamp to ensure health stays between 0 and maxHealth
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         invulTimer = invulnerabilityTime;
 
-        if (healthUI != null)
+        Debug.Log("Health script hit on: " + gameObject.name);
+
+        if (!isPlayer && animator != null)
+        {
+            animator.SetTrigger("IsHurt");
+        }
+
+        if (isPlayer && healthUI != null)
             healthUI.TakeDamage((int)amount);
 
+        if (isPlayer)
+        {
+            Debug.Log("[Player] Took damage: " + amount + " | HP: " + currentHealth);
+        }
+        else
+        {
+            Debug.Log("[Enemy] Took damage: " + amount + " | HP: " + currentHealth);
+        }
         // UpdateHealthUI(); // Update the UI when health changes
 
         if (currentHealth <= 0)
