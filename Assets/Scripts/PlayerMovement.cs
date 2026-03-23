@@ -252,14 +252,16 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
         {
             Debug.Log("Hit object: " + col.name);
 
-            Health health = col.GetComponent<Health>();
+            hits[0].GetComponent<Health>().TakeDamage(attackDamage);
 
+            /*
             // Only apply damage if enemy was found
             if (health != null && !health.isPlayer)
             {
                 Debug.Log("Applying damage to: " + health.gameObject.name);
                 health.TakeDamage(attackDamage);
             }
+            */
         }
     }
 }

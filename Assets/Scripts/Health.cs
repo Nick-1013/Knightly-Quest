@@ -1,113 +1,133 @@
-using UnityEngine;
-using UnityEngine.UI; // Optional: needed if you want to use the Unity UI components (like a Slider or Image fill) for a health bar.
+using UnityEngine; // Core Unity engine functionality
+using UnityEngine.UI; // Required for UI elements like health bars
 
 public class Health : MonoBehaviour
 {
-    // These fields are public/SerializeField so they can be set in the Unity Inspector
-    public float maxHealth = 100f;
-    private Enemy enemy; // Reference to the Enemy script to call EnemyKilled() when this entity dies
-    private PlayerMovement player; // Reference to the PlayerMovement script to call GameOver() when the player dies
-    [SerializeField] private float currentHealth;
-    [SerializeField] private ImageController healthUI;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    public float invulnerabilityTime = 0.5f;
-    private float invulTimer;
-    private Animator animator;
-    private bool isDead = false;
-    public bool isPlayer = false;
+    // ---------------- BASIC HEALTH SETTINGS ----------------
 
-    // Reference to the UI element (e.g., a Slider or Image) to visually represent health
-    // Make sure to add 'using UnityEngine.UI;' at the top of your script for this.
-    // [SerializeField] private Slider healthSlider; // Use if you have a Slider
-    // [SerializeField] private Image healthBarFill; // Use if you have an Image with type set to 'Filled'
+    public float maxHealth = 100f; // Maximum health value for this object
+
+    [SerializeField] private float currentHealth; // Current health (hidden but visible in Inspector)
+
+    public bool isPlayer = false; // Determines if this Health belongs to player or enemy
+
+    // ---------------- REFERENCES ----------------
+
+    private Enemy enemy; // Reference to Enemy script (used if this is an enemy)
+    private PlayerMovement player; // Reference to Player script (used if this is the player)
+
+    [SerializeField] private ImageController healthUI; // Reference to UI health display (for player)
+
+    [SerializeField] private SpriteRenderer spriteRenderer; // Used for flash effect when damaged
+
+    private Animator animator; // Animator for hurt/death animations
+
+    // ---------------- DAMAGE / INVULNERABILITY ----------------
+
+    public float invulnerabilityTime = 0.5f; // Time after hit where damage is ignored
+
+    private float invulTimer; // Tracks remaining invulnerability time
+
+    // ---------------- STATE ----------------
+
+    private bool isDead = false; // Tracks if this entity is already dead
+
+    // ---------------- INITIALIZATION ----------------
 
     void Start()
     {
-        // When the game starts, set the current health to the maximum health
-        currentHealth = maxHealth;
-        // UpdateHealthUI(); // Call this to set the initial state of the UI
-        animator = GetComponent<Animator>();
+        currentHealth = maxHealth; // Set starting health to max
 
+        animator = GetComponent<Animator>(); // Get Animator component if it exists
+
+        // If no SpriteRenderer assigned manually, try to get one
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (!isPlayer)
-        {
-            enemy = GetComponent<Enemy>();
-        }
-        else
-        {
-            player = GetComponent<PlayerMovement>();
-        }
+        // Get BOTH components safely (instead of depending on isPlayer logic)
+        enemy = GetComponent<Enemy>(); // Will be null if not an enemy
+        player = GetComponent<PlayerMovement>(); // Will be null if not player
     }
 
-    // Update is called once per frame
+    // ---------------- UPDATE LOOP ----------------
+
     void Update()
     {
+        // If dead, ensure visuals are reset and stop further logic
         if (isDead)
         {
-            ResetVisual();
-            return;
+            ResetVisual(); // Restore sprite visibility
+            return; // Exit Update early
         }
 
+        // If currently invulnerable, reduce timer and flash sprite
         if (invulTimer > 0)
         {
-            invulTimer -= Time.deltaTime;
+            invulTimer -= Time.deltaTime; // Decrease timer over time
 
-            FlashEffect();
+            FlashEffect(); // Apply flashing effect
         }
         else
         {
-            ResetVisual();
+            ResetVisual(); // Restore normal appearance
         }
     }
+
+    // ---------------- VISUAL EFFECTS ----------------
 
     void FlashEffect()
     {
-        if (spriteRenderer == null) return;
+        if (spriteRenderer == null) return; // Safety check
 
-        Color color = spriteRenderer.color;
+        Color color = spriteRenderer.color; // Get current sprite color
 
-        // PingPong creates a smooth fade in/out
+        // Creates a pulsing transparency effect
         float alpha = Mathf.PingPong(Time.time * 5f, 1f);
 
-        color.a = alpha;
-        spriteRenderer.color = color;
+        color.a = alpha; // Apply changing alpha
+        spriteRenderer.color = color; // Set updated color
     }
 
     void ResetVisual()
     {
-        if (spriteRenderer == null) return;
+        if (spriteRenderer == null) return; // Safety check
 
-        Color color = spriteRenderer.color;
-        color.a = 1f;
-        spriteRenderer.color = color;
+        Color color = spriteRenderer.color; // Get current color
+
+        color.a = 1f; // Reset alpha to fully visible
+
+        spriteRenderer.color = color; // Apply reset color
     }
 
-    // Public function to allow other scripts to deal damage
+    // ---------------- DAMAGE HANDLING ----------------
+
     public void TakeDamage(float amount)
     {
-        Debug.Log("Health script hit on: " + gameObject.name);
+        Debug.Log("Health script hit on: " + gameObject.name); // Log which object was hit
+
+        // Ignore damage if currently invulnerable or already dead
         if (invulTimer > 0 || isDead) return;
 
-        currentHealth -= amount;
+        currentHealth -= amount; // Subtract damage from health
 
-        Debug.Log("Health script hit on: " + gameObject.name);
-        // Use Mathf.Clamp to ensure health stays between 0 and maxHealth
+        // Clamp health to stay between 0 and maxHealth
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        invulTimer = invulnerabilityTime;
+        invulTimer = invulnerabilityTime; // Reset invulnerability timer
 
-        Debug.Log("Health script hit on: " + gameObject.name);
-
+        // Trigger hurt animation ONLY for enemies
         if (!isPlayer && animator != null)
         {
             animator.SetTrigger("IsHurt");
         }
 
+        // Update UI ONLY if this is the player
         if (isPlayer && healthUI != null)
+        {
             healthUI.TakeDamage((int)amount);
+        }
 
+        // Debug logs to clearly separate player vs enemy damage
         if (isPlayer)
         {
             Debug.Log("[Player] Took damage: " + amount + " | HP: " + currentHealth);
@@ -116,76 +136,73 @@ public class Health : MonoBehaviour
         {
             Debug.Log("[Enemy] Took damage: " + amount + " | HP: " + currentHealth);
         }
-        // UpdateHealthUI(); // Update the UI when health changes
 
+        // If health reaches zero, trigger death
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    // Public function to allow other scripts to heal the entity
+    // ---------------- HEALING ----------------
+
     public void Heal(float amount)
     {
-        currentHealth += amount;
+        currentHealth += amount; // Add health
+
+        // Clamp to prevent overhealing beyond max
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        // UpdateHealthUI(); // Update the UI when health changes
-
-        if (healthUI != null)
+        // Update UI if this is the player
+        if (isPlayer && healthUI != null)
+        {
             healthUI.Heal((int)amount);
+        }
     }
 
-    // Optional: Function to update the health bar UI
-    /*
-    private void UpdateHealthUI()
-    {
-        if (healthSlider != null)
-        {
-            healthSlider.value = currentHealth / maxHealth;
-        }
-        if (healthBarFill != null)
-        {
-            healthBarFill.fillAmount = currentHealth / maxHealth;
-        }
-    }
-    */
+    // ---------------- DEATH HANDLING ----------------
 
     private void Die()
     {
-        if (isDead) return;
-        isDead = true;
+        if (isDead) return; // Prevent multiple death calls
 
-        // Handle death logic here (e.g., play death animation, respawn, destroy object, reload scene)
-        Debug.Log(gameObject.name + " has died!");
-        // For example, disable the game object:
-        // gameObject.SetActive(false);
+        isDead = true; // Mark as dead
 
-        // Fire "Death" Trigger for the Animator (ONE TIME)
+        Debug.Log(gameObject.name + " has died!"); // Debug log
+
+        // Trigger death animation if Animator exists
         if (animator != null)
         {
             animator.SetTrigger("IsDead");
         }
 
-        // Disable movement scripts
-        if (player != null)
-            player.enabled = false;
-
-        if (enemy != null)
-            enemy.enabled = false;
-
-        // Notify the GameManager that an enemy has been killed or the player has died
-        if (enemy != null)
+        // ---------------- PLAYER DEATH ----------------
+        if (isPlayer)
         {
-            enemy.Die();
-        }
+            if (player != null)
+                player.enabled = false; // Disable player controls
 
-        if (player != null)
-        {
-            GameManagerScript gm = FindFirstObjectByType<GameManagerScript>();
+            GameManagerScript gm = FindFirstObjectByType<GameManagerScript>(); // Find GameManager
 
             if (gm != null)
-                gm.GameOver();
+                gm.GameOver(); // Trigger game over
+        }
+        // ---------------- ENEMY DEATH ----------------
+        else
+        {
+            if (enemy != null)
+                enemy.Die(); // Call enemy-specific death logic
+        }
+    }
+
+    // ---------------- OPTIONAL ANIMATION RESET ----------------
+
+    void IsNotHurt()
+    {
+        // Reset hurt animation ONLY for enemies
+        if (!isPlayer && animator != null)
+        {
+            animator.SetTrigger("IsNotHurt");
         }
     }
 }

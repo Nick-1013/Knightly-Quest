@@ -8,7 +8,7 @@ public class HealthPickup : MonoBehaviour
     {
         Health health = collision.GetComponent<Health>();
 
-        if (health != null)
+        if (health != null && health.isPlayer)
         {
             health.Heal(healAmount);
             Destroy(gameObject);
