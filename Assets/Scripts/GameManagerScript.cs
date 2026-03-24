@@ -17,6 +17,9 @@ public class GameManagerScript : MonoBehaviour
 
     private bool isPaused;
 
+    [Header("Level Settings")]
+    public bool isFinalLevel = false;
+
     void Start()
     {
         Time.timeScale = 1f;
@@ -65,8 +68,20 @@ public class GameManagerScript : MonoBehaviour
 
         if (enemiesRemaining <= 0)
         {
-            GameWin();
+            if (isFinalLevel)
+                GameWin();
+            else
+                LoadNextLevel();
         }
+    }
+
+    public void LoadNextLevel()
+    {
+        Time.timeScale = 1f; // Ensure game is not paused
+
+        int currentIndex = SceneManager.GetActiveScene().buildIndex; // Get current scene index
+
+        SceneManager.LoadScene(currentIndex + 1); // Load next scene in build order
     }
 
     public void PauseGame()
@@ -118,7 +133,7 @@ public class GameManagerScript : MonoBehaviour
         if (hpBarUI != null)
             hpBarUI.SetActive(false);
 
-        ResumeGame();
+        Time.timeScale = 0f; // Freeze the game when player wins
 
         gameWinUI.SetActive(true);
     }

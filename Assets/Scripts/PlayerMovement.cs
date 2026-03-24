@@ -1,6 +1,7 @@
 using UnityEngine; // Gives access to Unity engine core features (physics, transforms, etc.)
 using UnityEngine.InputSystem; // Enables use of the new Unity Input System
 using System.Linq; // Allows use of LINQ (used here to find gamepad devices)
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour // Main player controller class
 {
@@ -98,6 +99,17 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Attack(); // Trigger attack
+        }
+
+
+        // -------- DEBUG: RELOAD SCENE --------
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 

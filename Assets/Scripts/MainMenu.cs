@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     // If you use a ScriptableObject for scene management, you would reference it here.
     // For this example, the string reference is kept but the method is made async.
-    [SerializeField] private string gameSceneName = "Game";
+    [SerializeField] private string gameSceneName = "Level 1";
 
     // Called when the "Play Game" button is clicked
     public void PlayGame()

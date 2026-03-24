@@ -885,7 +885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d12415529c8cfc48b5d0c8d7c86b940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
-  gameSceneName: Game
+  gameSceneName: Level 1
 --- !u!95 &656939598
 Animator:
   serializedVersion: 7

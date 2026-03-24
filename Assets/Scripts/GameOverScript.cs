@@ -16,6 +16,11 @@ public class GameOverScript : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+    public void RestartFull()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Level 1");
+    }
 
     public void MainMenuButton()
     {
