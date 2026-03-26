@@ -115,6 +115,7 @@ MonoBehaviour:
   detectionRange: 5
   attackRange: 2
   player: {fileID: 0}
+  skull: {fileID: 5501336280772173297, guid: 43bc7dc35ee3c914c84be5209f7f69c9, type: 3}
 --- !u!114 &3619476873420202317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,12 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c58c827eb4b2a48b695344d4e897e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 3
-  currentHealth: 3
+  maxHealth: 9
+  currentHealth: 9
+  isPlayer: 0
   healthUI: {fileID: 0}
   spriteRenderer: {fileID: 0}
   invulnerabilityTime: 0
-  isPlayer: 0
 --- !u!50 &1375612033886998614
 Rigidbody2D:
   serializedVersion: 5

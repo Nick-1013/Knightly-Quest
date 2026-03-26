@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
     private Animator animator; // Animator for handling animations
     private GameManagerScript gameManager; // Reference to game manager
     private Health playerHealth; // Reference to player's health script
+    public GameObject skull;
 
     // ---------------- INTERNAL STATE ----------------
     private EnemyState currentState; // Current AI state
@@ -236,5 +237,13 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
             gameManager.EnemyKilled(); // Notify GameManager
 
         Destroy(gameObject, 1.5f); // Destroy enemy after delay
+    }
+
+    public void SpawnSkull()
+    {
+        if (skull != null)
+        {
+            Instantiate(skull, transform.position, Quaternion.identity); // Spawn skull at enemy position
+        }
     }
 }

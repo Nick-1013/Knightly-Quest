@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
         // Check for mouse click (left click)
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Attack(); // Trigger attack
+            AttackAnimation(); // Trigger attack
         }
 
 
@@ -245,9 +245,6 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
     {
         Debug.Log("[Player] ATTACK!"); // Debug log for attack trigger
 
-        if (animator != null)
-            animator.SetTrigger("IsAttacking"); // Trigger attack animation
-
         // Detect all colliders within attack range
         Vector2 attackCenter = attackPoint.position;
 
@@ -275,6 +272,11 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
             }
             */
         }
+    }
+    void AttackAnimation()
+    {
+        if (animator != null)
+            animator.SetTrigger("IsAttacking"); // Trigger attack animation
     }
 }
 
