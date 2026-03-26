@@ -192,5 +192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405b3566bab439547b2edf04cedc3c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkullRoller
-  rollSpeed: 7
-  torqueAmount: 20
+  rollSpeed: 5
+  torqueAmount: -30
+  timeUntilDestroy: 10

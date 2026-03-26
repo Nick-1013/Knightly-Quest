@@ -133,8 +133,6 @@ public class GameManagerScript : MonoBehaviour
         if (hpBarUI != null)
             hpBarUI.SetActive(false);
 
-        Time.timeScale = 0f; // Freeze the game when player wins
-
         gameWinUI.SetActive(true);
     }
 

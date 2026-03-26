@@ -463,56 +463,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.040081, y: 1.034703}
   m_EdgeRadius: 0
---- !u!1 &514657944
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 514657946}
-  - component: {fileID: 514657945}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &514657945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 514657944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9847e63b7da5f284bb0be33d813d1926, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManagerScript
-  pauseMenuUI: {fileID: 1558186720}
-  gameOverUI: {fileID: 1293231702}
-  gameWinUI: {fileID: 1879952071}
-  hpBarUI: {fileID: 1297018311}
-  enemiesRemaining: 0
-  isFinalLevel: 0
---- !u!4 &514657946
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 514657944}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 464.25, y: 255.75002, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -30378,6 +30328,56 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1010390625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1010390627}
+  - component: {fileID: 1010390626}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1010390626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010390625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9847e63b7da5f284bb0be33d813d1926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManagerScript
+  pauseMenuUI: {fileID: 1558186720}
+  gameOverUI: {fileID: 1293231702}
+  gameWinUI: {fileID: 1879952071}
+  hpBarUI: {fileID: 1297018311}
+  enemiesRemaining: 0
+  isFinalLevel: 0
+--- !u!4 &1010390627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010390625}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 464.25, y: 255.75002, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1066980092
 GameObject:
   m_ObjectHideFlags: 0
@@ -30886,11 +30886,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3619476873420202317, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
       propertyPath: maxHealth
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3619476873420202317, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
       propertyPath: currentHealth
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5433519815151120863, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35701,10 +35701,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 757095493670349254, guid: 9570c96e95dff0b499356ab055f04e30, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 3000778070793915318, guid: 9570c96e95dff0b499356ab055f04e30, type: 3}
       propertyPath: m_Name
       value: Knight (Player Character)
@@ -35713,10 +35709,6 @@ PrefabInstance:
       propertyPath: healthUI
       value: 
       objectReference: {fileID: 1297018315}
-    - target: {fileID: 7779518915501052176, guid: 9570c96e95dff0b499356ab055f04e30, type: 3}
-      propertyPath: attackDamage
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35946,7 +35938,7 @@ SceneRoots:
   - {fileID: 8082833056391254576}
   - {fileID: 1744033255}
   - {fileID: 914331046}
-  - {fileID: 514657946}
+  - {fileID: 1010390627}
   - {fileID: 1089897267226603870}
   - {fileID: 3135929040010506079}
   - {fileID: 5417682784657919123}

@@ -1,9 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
 public class SkullRoller : MonoBehaviour
 {
     public float rollSpeed = 10f;
     public float torqueAmount = -10f; // Negative for clockwise, positive for counter-clockwise
+    public float timeUntilDestroy = 5f; // Time in seconds before the skull is destroyed
     private Rigidbody2D rb;
 
     void Start()
@@ -16,5 +18,13 @@ public class SkullRoller : MonoBehaviour
 
         // 2. Apply spin to make it roll
         rb.AddTorque(torqueAmount, ForceMode2D.Force);
+
+        StartCoroutine(DestroySkull());
+    }
+
+    IEnumerator DestroySkull()
+    {
+        yield return new WaitForSeconds(timeUntilDestroy);
+        Destroy(gameObject);
     }
 }
