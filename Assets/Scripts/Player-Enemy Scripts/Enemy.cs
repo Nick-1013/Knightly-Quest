@@ -243,7 +243,13 @@ public class Enemy : MonoBehaviour // Enemy behavior script attached to enemy Ga
     {
         if (skull != null)
         {
-            Instantiate(skull, transform.position, Quaternion.identity); // Spawn skull at enemy position
+            GameObject spawnedSkull = Instantiate(skull, transform.position, Quaternion.identity); // Spawn skull at enemy position
+
+            if (spawnedSkull.TryGetComponent<SkullRoller>(out SkullRoller sr))
+            {
+                // Pass facing direction (1 = right, -1 = left)
+                sr.SetDirection(transform.localScale.x); // Use localScale.x to determine direction
+            }
         }
     }
 }

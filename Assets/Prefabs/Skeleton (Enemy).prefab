@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c58c827eb4b2a48b695344d4e897e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 9
-  currentHealth: 9
+  maxHealth: 1
+  currentHealth: 1
   isPlayer: 0
   healthUI: {fileID: 0}
   spriteRenderer: {fileID: 0}
