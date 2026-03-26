@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8555206829720529235}
   - component: {fileID: 7592125660003073744}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FollowPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 757095493670349254}
   - component: {fileID: 4245667242764524339}
   - component: {fileID: 6379829966098574403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Knight (Player Character)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 1042065049868858853}
   - component: {fileID: 60516110862931947}
   - component: {fileID: 3756122083060273438}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackPoint
   m_TagString: Player
   m_Icon: {fileID: 0}
