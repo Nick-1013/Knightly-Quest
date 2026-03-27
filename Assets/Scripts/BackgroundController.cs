@@ -1,26 +1,105 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundController : MonoBehaviour
 {
-    private float startPos;
-    public GameObject cam;
-    public float parallaxEffect; // The speed at which the background moves relative to the camera
-     void Awake()
+    public enum ParallaxMode
     {
-        startPos = transform.position.x; // Store the initial x position of the background
+        Static,
+        FollowCamera,
+        Looping
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public ParallaxMode mode = ParallaxMode.FollowCamera;
+
+    public GameObject cam;
+    public float parallaxEffect = 0.5f;
+
+    // Replace single background with an array so multiple layers are supported
+    public GameObject[] backgrounds;
+
+    // store each background's original x position
+    private float[] startPositions;
+
+    // example of a List that can be manipulated at runtime
+    private readonly List<GameObject> activeBackgrounds = new();
+
+    void Awake()
+    {
+        // Defensive initialization
+        if (backgrounds == null)
+            backgrounds = new GameObject[0];
+
+        startPositions = new float[backgrounds.Length];
+
+        // Populate activeBackgrounds using a while loop
+        int idx = 0;
+        while (idx < backgrounds.Length)
+        {
+            if (backgrounds[idx] != null)
+            {
+                activeBackgrounds.Add(backgrounds[idx]);
+            }
+            idx++;
+        }
+    }
+
     void Start()
     {
-        startPos = transform.position.x; // Store the initial x position of the background
+        // Initialize startPositions using a for loop over the array
+        for (int i = 0; i < backgrounds.Length; i++)
+        {
+            if (backgrounds[i] != null)
+                startPositions[i] = backgrounds[i].transform.position.x;
+        }
+
+        // Example foreach loop over the List to log names (can be removed in production)
+        foreach (var bg in activeBackgrounds)
+        {
+            if (bg != null)
+                Debug.Log($"Active background: {bg.name}");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Calculate the distance the camera has moved from the starting position
-        float distance = cam.transform.position.x * parallaxEffect; // 0 = no movement, 1 = same movement as the camera, 0.5 = half the movement of the camera
+        if (cam == null || backgrounds == null)
+            return;
 
-        transform.position = new Vector3(startPos + distance, transform.position.y, transform.position.z); // Move the background based on the calculated distance
+        float distance = cam.transform.position.x * parallaxEffect;
+
+        // 1st for loop: update each background from the array by index
+        for (int i = 0; i < backgrounds.Length; i++)
+        {
+            var bg = backgrounds[i];
+            if (bg == null) continue;
+
+            Vector3 pos = bg.transform.position;
+            pos.x = startPositions[i] + distance;
+            bg.transform.position = pos;
+        }
+
+        // 2nd foreach loop: apply additional behaviour to the active list (example: simple visibility toggle)
+        foreach (var bg in activeBackgrounds)
+        {
+            if (bg == null) continue;
+            // Example: if in Looping mode, keep x within a range (simple placeholder logic)
+            if (mode == ParallaxMode.Looping)
+            {
+                var p = bg.transform.position;
+                if (p.x > startPositions[0] + 50f) // arbitrary range example
+                    p.x = startPositions[0] - 50f;
+                bg.transform.position = p;
+            }
+        }
+
+        // 3rd for-each style loop: iterate child transforms (demonstrates another foreach)
+        foreach (Transform child in transform)
+        {
+            // lightweight operation on children, e.g., slight vertical bob for effect
+            var cp = child.localPosition;
+            cp.y += Mathf.Sin(Time.time) * 0.0001f;
+            child.localPosition = cp;
+        }
     }
 }

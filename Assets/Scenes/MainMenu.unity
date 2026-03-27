@@ -1716,7 +1716,8 @@ MonoBehaviour:
     Cave\nBy VoidOmega\nhttps://www.reddit.com/user/VoidOmega/\n\n\n\nSounds\n\n\n\n\"Kingdom\"\nBy
     Tomentum+\nhttps://freesound.org/people/Tomentum+/\n\n\"Victory Fanfare\" \nBy
     humanoide9000\nhttps://freesound.org/people/humanoide9000/\n\nMedieval Tune -
-    Knight's Castle\nBy gertraut_hecher\nhttps://freesound.org/people/gertraut_hecher/"
+    Knight's Castle\nBy gertraut_hecher\nhttps://freesound.org/people/gertraut_hecher/\n\n\nEffects\n\n\n\n\"Free
+    VFX Asset Pack\"\nBy CodeManu\nhttps://codemanu.itch.io/"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d363d2c483c6243489ead13bef045e85, type: 2}
   m_sharedMaterial: {fileID: 604265384696459960, guid: d363d2c483c6243489ead13bef045e85, type: 2}
@@ -1782,7 +1783,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -273.61197, y: 952.91895, z: -277.06122, w: 325.1767}
+  m_margin: {x: -273.61197, y: 952.91895, z: -277.06122, w: 153.17152}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

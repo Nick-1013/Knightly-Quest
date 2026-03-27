@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
   healAmount: 1
+  pickupCollectVFX: {fileID: 216849847332569871, guid: 894c4cb422b9443419e3cb8ea9d2b349, type: 3}
 --- !u!114 &1468877396646291520
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30832,8 +30832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3688a9a41b1592449b38120f1aa0a4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundController
+  mode: 1
   cam: {fileID: 914331043}
   parallaxEffect: 0.5
+  backgrounds: []
 --- !u!1 &1397968563
 GameObject:
   m_ObjectHideFlags: 0
@@ -35722,10 +35724,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5242046057235928028, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 150507420652960966}
     - target: {fileID: 5433519815151120863, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.86
@@ -35769,6 +35767,10 @@ PrefabInstance:
     - target: {fileID: 6429359090330732927, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
       propertyPath: m_Name
       value: Skeleton (Enemy)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522710498156736073, guid: 1816a0c753be71541ad803e3ab33b3eb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

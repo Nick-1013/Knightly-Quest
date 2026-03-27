@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   damage: 1
-  attackCooldown: 2
+  attackCooldown: 1
   moveSpeed: 2
   detectionRange: 5
   attackRange: 2
@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c58c827eb4b2a48b695344d4e897e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 1
-  currentHealth: 1
+  maxHealth: 3
+  currentHealth: 3
   isPlayer: 0
   healthUI: {fileID: 0}
   spriteRenderer: {fileID: 0}

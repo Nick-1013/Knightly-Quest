@@ -103,13 +103,17 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
 
 
         // -------- DEBUG: RELOAD SCENE --------
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        if (Keyboard.current.nKey.wasPressedThisFrame)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        else if (Keyboard.current.tKey.wasPressedThisFrame)
+        else if (Keyboard.current.bKey.wasPressedThisFrame)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+        else if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -262,6 +266,7 @@ public class PlayerMovement : MonoBehaviour // Main player controller class
             Debug.Log("Hit object: " + col.name);
 
             hits[0].GetComponent<Health>().TakeDamage(attackDamage);
+
 
             /*
             // Only apply damage if enemy was found
