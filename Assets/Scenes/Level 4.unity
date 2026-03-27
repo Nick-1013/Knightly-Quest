@@ -346,6 +346,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8380443580491491941, guid: 228b258353aeb9941bc0efb74c126c0f, type: 3}
   m_PrefabInstance: {fileID: 97492997}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &97493002 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8147461154268423638, guid: 228b258353aeb9941bc0efb74c126c0f, type: 3}
+  m_PrefabInstance: {fileID: 97492997}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97492998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2d78712d7e0f7498e4fd56fc9eece9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImageController
 --- !u!1 &258570499
 GameObject:
   m_ObjectHideFlags: 0
@@ -28119,6 +28130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
   healAmount: 1
+  pickupCollectVFX: {fileID: 0}
 --- !u!61 &1590830097
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -32199,7 +32211,7 @@ PrefabInstance:
     - target: {fileID: 6379829966098574403, guid: 9570c96e95dff0b499356ab055f04e30, type: 3}
       propertyPath: healthUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 97493002}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
