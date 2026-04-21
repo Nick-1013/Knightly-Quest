@@ -205,4 +205,13 @@ public class Health : MonoBehaviour
             animator.SetTrigger("IsNotHurt");
         }
     }
+
+    // MACE INJURY DAMAGE
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Mace")
+        {
+            TakeDamage(10f); // Example damage value for mace hit
+        }
+    }
 }

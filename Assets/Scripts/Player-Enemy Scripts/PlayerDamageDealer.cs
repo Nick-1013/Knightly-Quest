@@ -26,5 +26,10 @@ public class PlayerDamageDealer : MonoBehaviour
                 Debug.Log("Enemy hit! Remaining health: " + enemyHealth.maxHealth);
             }
         }
+
+        if (collision.gameObject.tag == "Mace")
+        {
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
+        }
     }
 }
